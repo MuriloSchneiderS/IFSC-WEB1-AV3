@@ -1,5 +1,13 @@
 # IFSC-WEB1-AV3
 Aplicação web de página única que funcione como um "Mural de Recados" público. Onde se pode adicionar um recado, ver todos os recados existentes, editar um recado, marcar um recado como "favorito" e excluí-lo.
+# Nome do banco: trabalho_web
+## Tabela:
+CREATE TABLE recados (
+id INT PRIMARY KEY AUTO_INCREMENT,
+mensagem TEXT NOT NULL,
+status TINYINT(1) NOT NULL DEFAULT 0,
+data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
 ## Especificações técnicas
 # HTML:
@@ -52,12 +60,3 @@ obtenha os posts já registrados será descontada. E não se preocupem, a primei
 aplicação que eu testar também será testada por último, para ver como se comporta
 após a população do banco de dados, assim ninguém fica com a vantagem de ser o
 primeiro.
-
-## Nome do banco: trabalho_web
-# Tabela:
-CREATE TABLE recados (
-id INT PRIMARY KEY AUTO_INCREMENT,
-mensagem TEXT NOT NULL,
-status TINYINT(1) NOT NULL DEFAULT 0,
-data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);

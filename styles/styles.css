@@ -1,0 +1,32 @@
+html, body {
+
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #35424a;
+    color: #ffffff;
+    padding: 10px 0;
+    text-align: center;
+}
+/*
+1. Para questões visuais é necessário ter no mínimo os seguintes requisitos CSS.
+Avaliação Final
+a. Todos os posts devem vir se adaptando a tela, por exemplo 2 posts devem
+vir com espaçamento apropriado entre eles e caso um novo seja adicionado,
+adaptar para encaixar este na tela.
+b. Cores de fundo e fontes diferentes
+c. Quando estiver ocorrendo uma requisição, bloquear os botões e mudá-los de
+aparência para mostrar que estão bloqueados, e a tela de posts deve mostrar
+uma mensagem de atualizando ou algum ícone de carregamento para
+atualizar os posts
+d. Faça sua aplicação ser responsiva a diferentes tipos de tela.
+2. O uso de bootstrap é OPCIONAL.
+*/
