@@ -1,17 +1,28 @@
+:root {
+    --bs-primary: #00c282;
+    --primary-bg: #2b2b2b;
+    --secondary-bg: #f4f4f4;
+    --text-color: #ffffff;
+    --accent-color: #00c282;
+    --disabled-color: #cccccc;
+    --border-color: #ddd;
+}
 html, body {
-
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    background-color: #f4f4f4;
 }
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
+main{
+    width: 100%;
+    height: 100%;
+}
 header {
-    background-color: #35424a;
+    background-color: var(--accent-color);
     color: #ffffff;
     padding: 10px 0;
     text-align: center;
