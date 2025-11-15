@@ -8,6 +8,8 @@
     --border-color: #ddd;
 }
 html, body {
+    background-color: var(--primary-bg)!important;
+    color: var(--text-color)!important;
     height: 100%;
     width: 100%;
     box-sizing: border-box;

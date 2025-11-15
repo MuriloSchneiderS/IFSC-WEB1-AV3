@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../script/conexao.php'
+require '../scripts/conexao.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -22,35 +22,41 @@ require '../script/conexao.php'
             <!-- CRUD -->
             <article class="mb-5">
                 <h2 class="mb-2">Criar / Editar Post</h2>
-                <form id="postForm">
-                    <!--titulo não esta presente no banco de dados padrao do trabalho <div class="mb-1">
-                        <label for="titulo" class="form-label">Título</label>
-                        <input id="titulo" type="text" class="form-control" required>
-                    </div>-->
+                <form id="postForm" action="../scripts/crud.php" method="POST">
                     <div class="mb-3">
-                        <label for="conteudo" class="form-label">Conteúdo</label>
-                        <textarea id="conteudo" class="form-control" rows="2" required></textarea>
+                        <label for="mensagem" class="form-label">Mensagem</label>
+                        <textarea id="mensagem" name="mensagem" class="form-control" rows="2" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-success">Salvar Post</button>
+                    <button name="salvar_post" type="submit" class="btn btn-success">Salvar Post</button>
                 </form>
             </article>
             <article id="listaPosts" class="d-flex flex-column gap-4 mt-5">
                 <!-- Posts -->
                 <?php
-                    $sql = 'SELECT mensagem, status, data_criacao FROM posts ORDER BY data_postagem DESC'; 
+                    $sql = 'SELECT id, mensagem, status, data_criacao FROM recados ORDER BY data_criacao DESC'; 
                     $posts = mysqli_query($conexao, $sql);
-                    while ($post = mysqli_fetch_assoc($posts)) {
-                        $statusClass = $post['status'] ? 'border-success' : 'border-secondary';
-                        echo '
-                        <div class="card '.$statusClass.'">
-                            <div class="card-header bg-light">
-                                <strong>Postado em: '.date('d/m/Y H:i', strtotime($post['data_criacao'])).'</strong>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">'.$post['mensagem'].'</p>
-                            </div>
+                    if(mysqli_num_rows($posts) > 0){
+                        foreach($posts as $post){
+                ?>
+                <div class="post p-3 rounded shadow-sm">
+                    <div class="post-header d-flex justify-content-between align-items-center mb-2">
+                        <small class="text-white-50"><?php echo date('d/m/Y H:i', strtotime($post['data_criacao'])); ?></small>
+                        <div>
+                            <form action="../scripts/crud.php" method="POST">
+                                <input type="hidden" name="id_post" value="<?= htmlspecialchars($post['id']) ?>">
+                                <button name="editar_post" class="btn btn-sm btn-primary me-2 editar-post">Editar</button>
+                                <button name="excluir_post" class="btn btn-sm btn-danger excluir-post">Excluir</button>
+                            </form>
                         </div>
-                        ';
+                    </div>
+                    <div class="post-body">
+                        <p class="mb-0"><?php echo htmlspecialchars($post['mensagem']); ?></p>
+                    </div>
+                </div>
+                <?php
+                        }
+                    } else {
+                        echo '<p>Nenhum post encontrado.</p>';
                     }
                 ?>
             </article>
