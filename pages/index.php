@@ -9,6 +9,7 @@ require '../scripts/conexao.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <title>Mural de Recados</title>
 </head>
 <body>
@@ -25,8 +26,17 @@ require '../scripts/conexao.php';
                 <form id="postForm" action="../scripts/crud.php" method="POST">
                     <div class="mb-3">
                         <label for="mensagem" class="form-label">Mensagem</label>
-                        <textarea id="mensagem" name="mensagem" class="form-control" rows="2" required></textarea>
+                        <textarea id="mensagem" name="mensagem" class="form-control" rows="2" required><?php 
+                        if (isset($_GET['id'])) {//Se tiver o id na URL(retornado pelo editar_post)
+                            $id = intval($_GET['id']);
+                            $query = "SELECT mensagem FROM recados WHERE id = $id";//Busca a mensagem no banco
+                            $result = mysqli_query($conexao, $query);
+                            $data = mysqli_fetch_assoc($result);
+                            echo htmlspecialchars($data['mensagem']);//Preenche o textarea com a mensagem para edicao
+                        }
+                        ?></textarea>
                     </div>
+                    <input type="hidden" name="id_post" value="<?php echo isset($_GET['id']) ? intval($_GET['id']) : ''; ?>">
                     <button name="salvar_post" type="submit" class="btn btn-success">Salvar Post</button>
                 </form>
             </article>
@@ -44,8 +54,16 @@ require '../scripts/conexao.php';
                         <div>
                             <form action="../scripts/crud.php" method="POST">
                                 <input type="hidden" name="id_post" value="<?= htmlspecialchars($post['id']) ?>">
-                                <button name="editar_post" class="btn btn-sm btn-primary me-2 editar-post">Editar</button>
-                                <button name="excluir_post" class="btn btn-sm btn-danger excluir-post">Excluir</button>
+                                <button name="favoritar_post" type="submit" class="btn btn-sm btn-warning me-2">
+                                    <!-- Ícone de estrela preenchida se for favorito(bi-star-fill / bi-star) -->
+                                    <i class="bi bi-star<?= $post['status']==1? '-fill':'' ?>"></i>
+                                </button>
+                                <button name="editar_post" class="btn btn-sm btn-primary me-2">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button name="excluir_post" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </form>
                         </div>
                     </div>
