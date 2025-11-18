@@ -1,5 +1,5 @@
 <?php
-require_once 'database/credentials.php';
+require_once 'credentials.php';
 
 class Conexao {
     private $host = DB_HOST;

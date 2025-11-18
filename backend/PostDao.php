@@ -1,5 +1,5 @@
 <?php
-class PostRepository {
+class PostDao {
     private $conn;
     private $table_name = "recados";
 
@@ -11,9 +11,13 @@ class PostRepository {
         $query = "INSERT INTO " . $this->table_name . " (mensagem, status, data_criacao) VALUES (:mensagem, :status, :data_criacao)";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":mensagem", $post->getMensagem());
-        $stmt->bindParam(":status", $post->getStatus());
-        $stmt->bindParam(":data_criacao", $post->getDataCriacao());
+        $mensagem = $post->getMensagem();
+        $status = $post->getStatus();
+        $data_criacao = $post->getDataCriacao();
+
+        $stmt->bindParam(":mensagem", $mensagem);
+        $stmt->bindParam(":status", $status);
+        $stmt->bindParam(":data_criacao", $data_criacao);
 
         if($stmt->execute()) {
             return true;
@@ -42,10 +46,15 @@ class PostRepository {
         
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":mensagem", $post->getMensagem());
-        $stmt->bindParam(":status", $post->getStatus());
-        $stmt->bindParam(":data_criacao", $post->getDataCriacao());
-        $stmt->bindParam(":id", $post->getId());
+        $mensagem = $post->getMensagem();
+        $status = $post->getStatus();
+        $data_criacao = $post->getDataCriacao();
+        $id = $post->getId();
+
+        $stmt->bindParam(":mensagem", $mensagem);
+        $stmt->bindParam(":status", $status);
+        $stmt->bindParam(":data_criacao", $data_criacao);
+        $stmt->bindParam(":id", $id);
 
         if($stmt->execute()) {
             return true;

@@ -5,7 +5,8 @@ class Post{
     private $status;
     private $data_criacao;
 
-    public function __construct($id, $mensagem, $status, $data_criacao){
+    //Construtor com parametro id opcional(para caso de novo post)
+    public function __construct(string $mensagem, string $status, string $data_criacao, ?int $id = null){
         $this->id = $id;
         $this->mensagem = $mensagem;
         $this->status = $status;
@@ -20,6 +21,9 @@ class Post{
     }
     public function getStatus(){
         return $this->status;
+    }
+    public function toggleStatus(){
+        $this->status = $this->status==1?0:1;
     }
     public function getDataCriacao(){
         return $this->data_criacao;
