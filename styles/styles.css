@@ -36,7 +36,18 @@ i{
     padding-bottom: 120px;
 }
 .post{
-    transition: linear 2s;
+    transition: linear 1s;
+}
+button:disabled, button[disabled]{
+    background-color: var(--disabled-color) !important;
+    border-color: var(--disabled-color) !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
+textarea:disabled, textarea[disabled], input:disabled, input[disabled]{
+    background-color: var(--disabled-color) !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
 }
 /*
 1. Para questões visuais é necessário ter no mínimo os seguintes requisitos CSS.

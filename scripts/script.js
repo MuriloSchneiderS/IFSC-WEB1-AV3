@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const apiUrl = '../backend/api.php';
     const postForm = document.getElementById('postForm');
     const listaPosts = document.getElementById('listaPosts');
+    const btnCancelarEdicao = postForm.querySelector('button[name="cancelar_edicao"]');
     
     fetchPosts();
     
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para carregar a lista de posts
     async function fetchPosts() {
         listaPosts.innerHTML = '<p>Carregando posts...</p>';//Mensagem padrão
+        toggleFormDisabled(); //Desabilita o formulário durante o carregamento
         
         try {
             const response = await fetch(`${apiUrl}?action=readAll`);
@@ -61,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             listaPosts.innerHTML = '<p>Erro ao carregar posts.</p>';
             console.error('Erro no fetchPosts:', error);
+        }finally{
+            toggleFormDisabled(); //Habilita o formulário após o carregamento
         }
     }
     
@@ -127,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             postForm.mensagem.value = post.mensagem;
             postForm.dataset.id = post.id; // Armazena o ID do post no formulário
             postForm.dataset.action = 'update'; // Define a ação como 'update' para edição
-            postForm.querySelector('button[name="cancelar_edicao"]').style.display = 'inline-block'; // Mostra o botão de cancelar edição
+            btnCancelarEdicao.style.display='inline-block'; // Mostra o botão de cancelar edição
         } catch (error) {
             console.error('Erro ao buscar post para edição:', error);
         }
@@ -206,6 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
         postForm.reset();
         delete postForm.dataset.id;
         delete postForm.dataset.action;
+    }
+    /*alterna estado habilitado/desabilitado dos elementos do postForm*/
+    function toggleFormDisabled() {
+        Array.from(postForm.elements).forEach(element => {
+            element.disabled = !element.disabled;
+        });
     }
     
     //Função para formatar a data
