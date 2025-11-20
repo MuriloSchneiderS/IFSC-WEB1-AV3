@@ -61,6 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleFormSubmit(event) {
         event.preventDefault();
+        
+        //Cancelar edição
+        if (event.submitter.name==='cancelar_edicao'){
+            resetForm();
+            postForm.querySelector('button[name="cancelar_edicao"]').style.display = 'none'; //Esconde novamente o botão de cancelar edição
+            return;
+        }
 
         const id = postForm.dataset.id; // Verifica se há um ID armazenado para edição
         const mensagem = postForm.mensagem.value;
@@ -115,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             postForm.mensagem.value = post.mensagem;
             postForm.dataset.id = post.id; // Armazena o ID do post no formulário
             postForm.dataset.action = 'update'; // Define a ação como 'update' para edição
+            postForm.querySelector('button[name="cancelar_edicao"]').style.display = 'inline-block'; // Mostra o botão de cancelar edição
         } catch (error) {
             console.error('Erro ao buscar post para edição:', error);
         }
