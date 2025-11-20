@@ -66,11 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     async function handleFormSubmit(event) {
         event.preventDefault();
+        postForm.querySelector('button[name="cancelar_edicao"]').style.display = 'none'; //Esconde novamente o botão de cancelar edição
         
         //Cancelar edição
         if (event.submitter.name==='cancelar_edicao'){
             resetForm();
-            postForm.querySelector('button[name="cancelar_edicao"]').style.display = 'none'; //Esconde novamente o botão de cancelar edição
             return;
         }
         
