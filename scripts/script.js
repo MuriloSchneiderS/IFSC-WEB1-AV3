@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para carregar a lista de posts
     async function fetchPosts() {
-        listaPosts.innerHTML = '<p>Nenhum post encontrado.</p>';//Mensagem padrão
+        listaPosts.innerHTML = '<p>Carregando posts...</p>';//Mensagem padrão
 
         try {
             const response = await fetch(`${apiUrl}?action=readAll`);
@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             //Armazena o resultado em uma lista de posts em formato JSON
             const posts = await response.json();
 
+            listaPosts.innerHTML = '';//Limpa a mensagem padrão
             posts.forEach(post => {
                 const div = document.createElement('div');
                 div.innerHTML = `
@@ -34,13 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div id="post_lista">
                                 <button name="favoritar_post" data-id="${post.id}" type="button" class="btn btn-sm btn-warning me-2">
                                     <!-- Ícone de estrela preenchida se for favorito(bi-star-fill / bi-star) -->
-                                    <i class="bi bi-star${post.status===1?'-fill':''}"></i>
+                                    <i class="bi bi-star${post.status===1?'-fill':''}" style="pointer-events: none;"></i>
                                 </button>
                                 <button name="editar_post" data-id="${post.id}" type="button" class="btn btn-sm btn-primary me-2">
-                                    <i class="bi bi-pencil"></i>
+                                    <i class="bi bi-pencil" style="pointer-events: none;"></i>
                                 </button>
                                 <button name="excluir_post" data-id="${post.id}" type="button" class="btn btn-sm btn-danger">
-                                    <i class="bi bi-trash"></i>
+                                    <i class="bi bi-trash" style="pointer-events: none;"></i>
                                 </button>
                             </div>
                         </div>
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 listaPosts.appendChild(div);
             });
         } catch (error) {
+            listaPosts.innerHTML = '<p>Erro ao carregar posts.</p>';
             console.error('Erro no fetchPosts:', error);
         }
     }
@@ -156,23 +158,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.name!='favoritar_post')
             return;
         const id = event.target.dataset.id;
-
+        
         try {
-            const response = await fetch(`${apiUrl}?action=favorite`, {
+            const responsePost = await fetch(`${apiUrl}?action=readOne&id=${id}`);
+            const post = await responsePost.json();
+            post.status = post.status===1? 0:1; //Alterna o status de favorito
+            const postData = { id: post.id, mensagem: post.mensagem, status: post.status, data_criacao: post.data_criacao };
+            
+            const response = await fetch(`${apiUrl}?action=update`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id: id }),
+                body: JSON.stringify(postData),
             });
+
             if (response.status != 204){//204 No Content para update
                 const result = await response.json();
                 if (!response.ok) {
-                    alert(result.message || 'Erro ao favoritar post.');
+                    alert(result.message || 'Erro ao salvar post.');
                     return;
                 }
             }
-            
             fetchPosts();
         } catch (error) {
             console.error('Erro ao favoritar post:', error);
@@ -199,3 +206,25 @@ document.addEventListener('DOMContentLoaded', () => {
             pad(date.getSeconds());
     }
 });
+
+/*
+CRUD de posts:
+1. Deve ser uma área antes de todos os posts para criação e edição dos posts, caso
+eu selecione para editar um post, o formulário deve se auto preencher com os
+conteúdos para edição.
+2. Quando eu criar ou editar um novo post não deve acontecer nenhum carregamento
+na tela, a lista de posts deve ser atualizada de forma fluida.
+
+Lista de posts:
+1. Abaixo do CRUD de posts deve haver uma lista dos posts já cadastrados, cada um
+com seu título, conteúdo, botão de editar e de excluir, a data de postagem, e algum
+sinal que possa ser categorizado como lido ou favorito(uma estrela, ou sinal para
+favoritar), e deve atualizar o banco de dados.
+2. A lista deve carregar junto com a página de forma fluida.
+3. O design de cada post deve ser no mínimo com bordas arredondadas e uma cor
+diferente entre o título e corpo do texto.
+4. Caso aperte no botão de excluir, deve solicitar uma confirmação se você quer
+apagar este post.
+5. Qualquer alteração nos posts(inserção, edição, exclusão) devem atualizar a tabela.
+6. Deve estar listado como as favoritas em primeiro lugar seguido de outros posts
+*/

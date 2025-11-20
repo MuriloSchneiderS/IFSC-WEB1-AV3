@@ -52,22 +52,6 @@ switch ($action) {
             }
         }
     break;
-                
-    case 'favorite':
-        if ($method == 'POST') {
-            $id = $data->id;
-            $post = $postDao->readOne($id);
-            $post->toggleStatus();
-            
-            if ($postDao->update($post)) {
-                http_response_code(204);
-                exit;
-            } else {
-                http_response_code(500);
-                echo json_encode(['message' => 'Erro ao favoritar post.']);
-            }
-        }
-    break;
 
     case 'update':
         if ($method == 'POST') { 
