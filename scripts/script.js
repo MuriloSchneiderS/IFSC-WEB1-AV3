@@ -137,7 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
     async function handleDeleteClick(event) {
         if (event.target.name!='excluir_post')
             return;
-        
+        resetForm();
+        postForm.querySelector('button[name="cancelar_edicao"]').style.display = 'none'; //Esconde novamente o botão de cancelar edição
         const id = event.target.dataset.id;
         
         if (!confirm('Tem certeza que deseja deletar este post?'))
