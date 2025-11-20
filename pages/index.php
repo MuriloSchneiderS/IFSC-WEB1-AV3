@@ -48,7 +48,7 @@ require '../scripts/conexao.php';
                     if(mysqli_num_rows($posts) > 0){
                         foreach($posts as $post){
                 ?>
-                <div class="post p-3 rounded shadow-sm">
+                <div class="post p-3 rounded shadow-sm bg-dark">
                     <div class="post-header d-flex justify-content-between align-items-center mb-2">
                         <small class="text-white-50"><?php echo date('d/m/Y H:i', strtotime($post['data_criacao'])); ?></small>
                         <div>

@@ -29,6 +29,9 @@ header {
     padding: 10px 0;
     text-align: center;
 }
+i{
+    pointer-events: none;
+}
 /*
 1. Para questões visuais é necessário ter no mínimo os seguintes requisitos CSS.
 Avaliação Final
